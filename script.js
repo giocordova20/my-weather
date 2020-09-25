@@ -55,7 +55,10 @@
                 console.log("========= Forecasts  =========");
                 console.log(r2.daily);
                 for (var i = 0; i<r2.daily.length; i++){
-                    console.log("TEMP MAX: ",r2.daily[i].temp.day);
+                    console.log("TEMP MAX: ",r2.daily[i].temp.max);
+                    console.log("TEMP MIN: ",r2.daily[i].temp.min);
+                    console.log("Humidity: ",r2.daily[i].humidity);
+                    console.log("icon: ",r2.daily[i].weather[0].icon);ß
                 };
             });
         });
