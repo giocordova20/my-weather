@@ -3,8 +3,8 @@
       function displayCityWeather() {
 
         var city = $(this).attr("data-city");
-        var city = "New York City";
-        var state = "NY"
+        var city = "Richmond";
+        var state = "VA"
         tempUnit = "imperial"; // Farhenheit
         var currentIcon2="";
         var lat = "";
@@ -69,15 +69,31 @@
                 $("#cFeels").text("Feels Like: "+tempFeel2);
                 $("#cUV").text("UV Index: "+uvIndex2);
                 $("#cWind").text("Wind Speed: "+windSpeed2);
-                // $("#cTemp").text("Temperature: "+currentTemp2+"˚F");
 
                 console.log(r2.daily);
-                for (var i = 0; i<r2.daily.length; i++){
-                    console.log("Day: "+[i])
-                    console.log("TEMP MAX: ",r2.daily[i].temp.max);
-                    console.log("TEMP MIN: ",r2.daily[i].temp.min);
-                    console.log("Humidity: ",r2.daily[i].humidity+"%");
-                    console.log("icon: ",r2.daily[i].weather[0].icon);
+
+                // Get the 5 Day forecast
+                for (var i = 0; i<5; i++){
+                    var fDay = r2.daily[i].temp.day+"˚F";
+                    var fNight = r2.daily[i].temp.night+"˚F";
+                    var fHum = r2.daily[i].humidity+"%";
+                    var fIcon = r2.daily[i].weather[0].icon;
+                    
+                    console.log("Day: ",i);
+                    console.log("TEMP DAY: ",fDay);
+                    console.log("TEMP NIGHT: ",fNight);
+                    console.log("Humidity: ",fHum);
+                    console.log("icon: ",fIcon);
+                    
+                    console.log("#fD"+i);
+                    $("#fIcon"+i).text(fIcon);
+                    $("#fD"+i).text("Day: "+fDay);
+                    $("#fN"+i).text("Night: "+fDay);
+                    $("#fN"+i).text("Night: "+fDay);
+
+
+
+
                 };
             });
 
