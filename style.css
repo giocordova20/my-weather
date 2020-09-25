@@ -1,3 +1,19 @@
 .list-group-item+ .list-group-item {
     border-top: 1px solid #f7f9fa;
 }
+.row-current {
+    margin-right: 90px;
+}
+
+#currentWeather {
+background-color: #9caab7;
+}
+
+#forecastTitle {
+    text-align: center;
+    background-color: #4e5d6c;
+}
+
+.f-card {
+    width: auto;
+}

@@ -3,7 +3,7 @@
       function displayCityWeather() {
 
         var city = $(this).attr("data-city");
-        city = "London";
+        city = "New York City,NY,US";
         tempUnit = "imperial"; // Farhenheit
         var lat = "";
         var lon = "";
@@ -44,12 +44,19 @@
                 var tempFeel2 = r2.current.feels_like;
                 var uvIndex2  = r2.current.uvi;
                 var windSpeed2 = r2.current.wind_speed;
-   
-                console.log("    response2 Temp Fahrenheit: ", currentTemp2);
-                console.log("    response2 Humidity: ", currentHum2);
-                console.log("    response2.main.feels_like:  ",tempFeel2);
-                console.log("    response2.main.temp_max:  ",uvIndex2);
-                console.log("    response2.main.temp_min:  ",windSpeed2);
+                console.log("");
+                console.log("========= Current Temp =========");
+                console.log("  response2 TEMP Fahrenheit: ", currentTemp2);
+                console.log("  response2 HUMIDITY: ", currentHum2);
+                console.log("  response2.main.feels_like:  ",tempFeel2);
+                console.log("  response2.current.UVI:  ",uvIndex2);
+                console.log("  response2.current.WIND_SPEED:  ",windSpeed2);
+                console.log("");
+                console.log("========= Forecasts  =========");
+                console.log(r2.daily);
+                for (var i = 0; i<r2.daily.length; i++){
+                    console.log("TEMP MAX: ",r2.daily[i].temp.day);
+                };
             });
         });
 
