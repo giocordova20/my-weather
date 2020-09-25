@@ -3,16 +3,18 @@
       function displayCityWeather() {
 
         var city = $(this).attr("data-city");
-        city = "New York City,NY,US";
+        var city = "New York City";
+        var state = "NY"
         tempUnit = "imperial"; // Farhenheit
+        var currentIcon2="";
         var lat = "";
         var lon = "";
-        var queryURL1 = "https:api.openweathermap.org/data/2.5/weather?appid=ba936e978e68dd024ee2931bbb340b72&q="+city+"&units=imperial";
+        var queryURL1 = "https:api.openweathermap.org/data/2.5/weather?appid=ba936e978e68dd024ee2931bbb340b72&q="+city+","+state+"us&units=imperial";
         // https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
         // api.openweathermap.org/data/2.5/weather?zip={zip code},{country code}&appid={API key}
         //api.openweathermap.org/data/2.5/weather?zip=94040,us&appid={API key}
 
-
+        $("#city").text(city+" 9/25/2020"+"--"+currentIcon2);
        // Creating an AJAX call for the specific city button being clicked
         $.ajax({
           url: queryURL1,
@@ -20,16 +22,24 @@
         }).then(function(response) {
             lat = response.coord.lat;
             lon = response.coord.lon;
+            var cHigh = response.main.temp_max+"˚F";
+            var cLow = response.main.temp_min+"˚F";
+            var cHum = response.main.humidity+"%";
             console.log("")
             console.log("queryURL1", queryURL1);
             console.log("   response first query", response);
             console.log("   lat and lon:  "+ lat +" : "+lon);
             console.log("   temp Farhenheit:  ", response.main.temp);
-            console.log("   temp max:  ", response.main.temp_max);
-            console.log("   tem low:  ", response.main.temp_min);
-            console.log("   humidity:  ", response.main.humidity);
+            console.log("   TEMP max:  ", response.main.temp_max+"˚F");
+            console.log("   TEMP low:  ", response.main.temp_min+"˚F");
+            console.log("   HUMIDITY:  ", response.main.humidity+"%");
             console.log("   windspeed:  ", response.wind.speed+"mph");
             console.log("");
+            $("#cHigh").text("High: "+cHigh);
+            $("#cLow").text("Low: "+cLow);
+            $("#cHum").text("Humidity: "+cHum);
+
+
             var queryURL2 = "https:api.openweathermap.org/data/2.5/onecall?appid=ba936e978e68dd024ee2931bbb340b72&lat="+lat+"&lon="+lon+"&exclude=hourly,minutely&units=imperial";
             console.log("queryURL2:   ",queryURL2);
 
@@ -39,28 +49,39 @@
             }).then(function(response) {
                 var r2 = response;
                 console.log("    response 2:   ",r2);
-                var currentTemp2 = r2.current.temp;
-                var currentHum2 = r2.current.humidity;
-                var tempFeel2 = r2.current.feels_like;
+                var currentTemp2 = r2.current.temp+"˚F";
+                currentIcon2 = r2.current.weather[0].icon;
+                var tempFeel2 = r2.current.feels_like+"˚F";
                 var uvIndex2  = r2.current.uvi;
-                var windSpeed2 = r2.current.wind_speed;
+                var windSpeed2 = r2.current.wind_speed+"MPH";
                 console.log("");
                 console.log("========= Current Temp =========");
-                console.log("  response2 TEMP Fahrenheit: ", currentTemp2);
-                console.log("  response2 HUMIDITY: ", currentHum2);
-                console.log("  response2.main.feels_like:  ",tempFeel2);
+                console.log("  response2 TEMP Fahrenheit: ", currentTemp2+"˚F");
+                console.log("  response2 icon: ", currentIcon2);
+                // console.log("  response2 humidity: ", currentHum2);
+                console.log("  response2.main.FEELS_LIKE:  ",tempFeel2+"˚F");
                 console.log("  response2.current.UVI:  ",uvIndex2);
-                console.log("  response2.current.WIND_SPEED:  ",windSpeed2);
+                console.log("  response2.current.WIND_SPEED:  ",windSpeed2+"MPH");
                 console.log("");
                 console.log("========= Forecasts  =========");
+                $("#cTemp").text("Temperature: "+currentTemp2);
+                $("#cIcon").text(currentIcon2);
+                $("#cFeels").text("Feels Like: "+tempFeel2);
+                $("#cUV").text("UV Index: "+uvIndex2);
+                $("#cWind").text("Wind Speed: "+windSpeed2);
+                // $("#cTemp").text("Temperature: "+currentTemp2+"˚F");
+
                 console.log(r2.daily);
                 for (var i = 0; i<r2.daily.length; i++){
+                    console.log("Day: "+[i])
                     console.log("TEMP MAX: ",r2.daily[i].temp.max);
                     console.log("TEMP MIN: ",r2.daily[i].temp.min);
-                    console.log("Humidity: ",r2.daily[i].humidity);
-                    console.log("icon: ",r2.daily[i].weather[0].icon);ß
+                    console.log("Humidity: ",r2.daily[i].humidity+"%");
+                    console.log("icon: ",r2.daily[i].weather[0].icon);
                 };
             });
+
+
         });
 
 
