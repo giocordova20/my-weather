@@ -12,19 +12,15 @@
       <div id="title" class="col-sm text-center">
           <h1>My Weather</h1>
         </div>
-    </div>
-
-
-
-    
+    </div>   
     <div class="container">
         <div class="row">
           <div class="col-sm-3">
-            <form>
-                <div class="input-group mb-3">
-                    <input style="width: auto"type="text" class="form-control" placeholder="Search ZIP Code only" aria-label="City Input" aria-describedby="button-addon2">
-                    <input style="width: auto"type="text" class="form-control" placeholder="Enter City / Select State" aria-label="City Input" aria-describedby="button-addon2">
-                    <select style="width: auto;"class="custom-select" id="state">
+            <!-- <form> -->
+                <form class="input-group mb-3">
+                    <input id="zip" style="width: auto"type="number" class="form-control" placeholder="Search ZIP Code only" aria-label="Zip Input">
+                    <input id="city" style="width: auto"type="text" class="form-control" placeholder="Enter City / Select State" aria-label="City Input">
+                    <select id="state-select" class="custom-select" style="width: auto">
                         <option selected>Select a State</option>
 						<option value="Alabama">Alabama</option>
 						<option value="Alaska">Alaska</option>
@@ -82,18 +78,18 @@
                     <div class="input-group-append">
                         <button class="btn btn-info" type="submit" id="city-search">Search</button>
                     </div>
-                </div>
-            </form>
-            <div class="list-group list-group-city">
-                <a href="#" class="list-group-item list-group-item-action list-group-item-dark" data-city="RichmondVA">Richmond, VA</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-dark" data-city="RestonVA">Reston, VA</a>
+                </form>
+            <!-- </form> -->
+            <div id="city-list" class="list-group list-group-city">
+                <a href="#" class="list-group-item list-group-item-action list-group-item-dark" data-city="RichmondVA"></a>
+                <a href="#" class="list-group-item list-group-item-action list-group-item-dark" data-city="RestonVA"></a>
             </div>
           </div>
           <div class="col-sm-9">
             <div class="row-current">
                 <div class="col weather-pane table-light" id="currentWeather">
                     <div class="row row-city">    
-                        <h2 id = "city"></h2><h3 id="cIcon"></h3>
+                        <h2 id ="cCity"></h2><h2 id="cdate"></h2><h2 id="cIcon"></h2>
                     </div>
                         <h4 id="cTemp"></h4>
                         <h5 id="cFeels"></h5>
@@ -110,47 +106,47 @@
                     <div class="row" id="forecast">
                         <div class="card f-card">
                             <div class="card-body">
-                                <h5 id="f0Date"class="card-title">9/25/2020</h5>
+                                <h5 id="fDate0" class="card-title">9/01/2020</h5>
                                 <h6 id="fIcon0"class="card-subtitle mb-2 text-muted"></h6>
-                                <p id="fD0" class="card-text">Day: 86.84˚F</p>
-                                <p id="fN0" class="card-text">Night: 60.84˚F</p>
-                                <p id="fHum0" class="card-text">Humidity: 65%</p>
+                                <p id="fD0" class="card-text">day</p>
+                                <p id="fN0" class="card-text">night</p>
+                                <p id="fHum0" class="card-text">humidity</p>
                             </div>
                         </div>
                         <div class="card f-card">
                             <div class="card-body">
-                                <h5 id="f1Date" class="card-title">9/25/2020</h5>
+                                <h5 id="fDate1" class="card-title"></h5>
                                 <h6 id="fIcon1" class="card-subtitle mb-2 text-muted"></h6>
-                                <p id="fD1" class="card-text">Day: 86.84˚F</p>
-                                <p id="fN1" class="card-text">Night: 60.84˚F</p>
-                                <p id="fHum1" class="card-text">Humidity: 65%</p>
+                                <p id="fD1" class="card-text">day</p>
+                                <p id="fN1" class="card-text">night</p>
+                                <p id="fHum1" class="card-text">humidity</p>
                             </div>
                         </div>
                         <div class="card f-card">
                             <div class="card-body">
-                                <h5 id="f2Date" class="card-title">9/25/2020</h5>
+                                <h5 id="fDate2" class="card-title"></h5>
                                 <h6 id="fIcon2" class="card-subtitle mb-2 text-muted"></h6>
-                                <p id="fD2" class="card-text">Day: 86.84˚F</p>
-                                <p id="fN2" class="card-text">Night: 60.84˚F</p>
-                                <p id="fHum2" class="card-text">Humidity: 65%</p>
+                                <p id="fD2" class="card-text">day</p>
+                                <p id="fN2" class="card-text">night</p>
+                                <p id="fHum2" class="card-text">humidity</p>
                             </div>
                         </div>
                         <div class="card f-card">
                             <div class="card-body">
-                                <h5 id="f3Date" class="card-title">9/25/2020</h5>
+                                <h5 id="fDate3" class="card-title"></h5>
                                 <h6 id="fIcon3" class="card-subtitle mb-2 text-muted"></h6>
-                                <p id="fD3" class="card-text">Day: 86.84˚F</p>
-                                <p id="fN3" class="card-text">Night: 60.84˚F</p>
-                                <p id="fHum3" class="card-text">Humidity: 65%</p>
+                                <p id="fD3" class="card-text"></p>
+                                <p id="fN3" class="card-text"></p>
+                                <p id="fHum3" class="card-text"></p>
                             </div>
                         </div>
                         <div class="card f-card">
                             <div class="card-body">
-                              <h5 id="f4Date" class="card-title">9/25/2020</h5>
+                              <h5 id="fDate4" class="card-title"></h5>
                               <h6 id="fIcon4" class="card-subtitle mb-2 text-muted"></h6>
-                              <p id="fD4" class="card-text">Day: 86.84˚F</p>
-                              <p id="fN4" class="card-text">Night: 60.84˚F</p>
-                              <p id="fHum4"class="card-text">Humidity: 65%</p>
+                              <p id="fD4" class="card-text"></p>
+                              <p id="fN4" class="card-text"></p>
+                              <p id="fHum4"class="card-text"></p>
                             </div>
                           </div>
                         
@@ -170,20 +166,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
-<!-- <div class="col-lg-9">
-    <div id="today" class="mt-3">
-      <h1 id="city">City: </h1>
-      <h2 id="date"></h2><img id="currentImg" />
-        <p id="todaysTemp">Temp: </p>
-        <p id="humidity">Humidity: </p>
-        <p id="windSpeed">Wind: </p>
-        <p id="UVIndex">UV Index: </p>
-    </div>
-    <div id="forecast" class="mt-3">
-      <h2 id="fiveDayForecast">Five Day Forcast: </h3>
-    </div>
-  </div> -->
-
