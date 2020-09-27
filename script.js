@@ -1,6 +1,5 @@
 $(document).ready(function() {
     const today = moment();
-    // currentDate = today.format("LLLL");
     currentDate = today.format("l");
     console.log("");
     console.log("currentDate", currentDate);
@@ -21,27 +20,17 @@ $(document).ready(function() {
             var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${(search)},us&units=imperial&appid=ba936e978e68dd024ee2931bbb340b72`;
         }
 
-
-        // var zip = 23112;
         var city = $(this).attr("data-city");
-        // var city = "Richmond";
-        // var state = "VA";
+
         $("#date").text(currentDate);
         var currentIcon2="";
         var lat = "";
         var lon = "";
         
-        
-        
-        // console.log(queryZIP);
         console.log(queryURL);
-        // https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
-        // api.openweathermap.org/data/2.5/weather?zip={zip code},{country code}&appid={API key}
-        //api.openweathermap.org/data/2.5/weather?zip=94040,us&appid={API key}
-        // https://openweathermap.org/current
-        
-        // $("#city").text(city);
+
         $("#cIcon").text(currentIcon2);
+
        // Creating an AJAX call for the specific city button being clicked
         $.ajax({
           url: queryURL,
@@ -126,9 +115,9 @@ $(document).ready(function() {
                     $("#fHum"+i).text("Humidity: "+fHum);
                 };
             });
+            renderCities();  
         });
 
-        renderCities();  
     };
 
     //// Add the searched cities to the list ////
@@ -188,5 +177,4 @@ $(document).ready(function() {
     // Add a click event listener for the city list. It targest the class "city-item"
     $(document).on("click", ".city-item", displayCityWeather);
 
-    // displayCityWeather();
 });
