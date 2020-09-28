@@ -1,6 +1,11 @@
 .list-group-item+ .list-group-item {
     border-top: 1px solid #f7f9fa;
 }
+
+.weather-pane {
+    padding-right: 1px;
+}
+
 .row-current {
     margin-right: 90px;
 }
@@ -28,4 +33,5 @@ padding-left: 10px;
 
 .f-card {
     width: auto;
+    margin: auto;
 }
