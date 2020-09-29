@@ -36,7 +36,7 @@ $(document).ready(function() {
             $("#cLow").text("Low: "+cLow);
             $("#cHum").text("Humidity: "+cHum);
 
-            var queryURL2 = "https:api.openweathermap.org/data/2.5/onecall?appid=ba936e978e68dd024ee2931bbb340b72&lat="+lat+"&lon="+lon+"&exclude=hourly,minutely&units=imperial";
+            var queryURL2 = "https://api.openweathermap.org/data/2.5/onecall?appid=ba936e978e68dd024ee2931bbb340b72&lat="+lat+"&lon="+lon+"&exclude=hourly,minutely&units=imperial";
 
             // Use the lat and lon from the first AJAX to get the daily forecast    
             $.ajax({
@@ -44,8 +44,6 @@ $(document).ready(function() {
                 method: "GET"
             }).then(function(response) {
 
-                console.log(response);
-                
                 var r2 = response;
                 var currentTemp2 = r2.current.temp+"˚F";
                 currentIcon2 = r2.current.weather[0].icon;
