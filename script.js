@@ -4,7 +4,7 @@ $(document).ready(function() {
     // console.log("");
     // console.log("currentDate", currentDate);
     // console.log("");
-    $("#cdate").text(currentDate);//
+    $("#cdate").text(currentDate);
 
     function displayCityWeather(search,type) {
         console.log("");
@@ -87,6 +87,7 @@ $(document).ready(function() {
                 $("#cFeels").text("Feels Like: "+tempFeel2);
                 $("#cUV").text("UV Index: "+uvIndex2);
                 $("#cWind").text("Wind Speed: "+windSpeed2);
+                $("#forecast-title").text("Your 5 Day Forecast");
 
                 // console.log(r2.daily);
 
@@ -238,11 +239,10 @@ $(document).ready(function() {
           renderCities();
         }, delayInMilliseconds);
     
-
-
     
     });
     
+
     //// Add click event listener for the city list to target the class "city-item" ////
     $(document).on("click", ".city-item", function(){
         var search = $(this).attr("data-city");
@@ -293,12 +293,10 @@ $(document).ready(function() {
                 if (citiesArrLoc[i].searchValue==value){
                     console.log("   This search value already exists   ")
                     return // Don't save the search if it already exists
-                }
+                };
                 
-            }
-            
-            
-        }
+            };
+        };
 
         // Add new city to the beginning of the array so that appears first in the list
         // when it rendered
@@ -307,15 +305,28 @@ $(document).ready(function() {
         localStorage.setItem("city-searches",JSON.stringify(citiesArrLoc));
         console.log("==== END SAVE SEARCH TO LOCAL ====");
         console.log("");
-
     };
 
     
-    displayCityWeather("New York, New York", "citystate")
+    // function initialPageLoad(){
+    //     var citiesArrLoc = JSON.parse(localStorage.getItem("city-searches")) || [];
+    //     if (citiesArrLoc==0){
+    //         console.log(" ");
+    //         console.log(" IN THE INITIAL PAGE LOAD ");
+    //         displayCityWeather("New York, New York", "citystate")
+    //         console.log(" ");
+    //     }else if(){
 
-    // saveSearch("citystate","York City, NY");
+    //     };
+        
+        
+        
+    // };
+    
+    // initialPageLoad();
 
-    var delayInMilliseconds = 100; //1 second
+
+    var delayInMilliseconds = 100;
     setTimeout(function() {
         console.log("     in setTimeout     ");
         renderCities();
