@@ -44,6 +44,8 @@ $(document).ready(function() {
                 method: "GET"
             }).then(function(response) {
 
+                console.log(response);
+                
                 var r2 = response;
                 var currentTemp2 = r2.current.temp+"˚F";
                 currentIcon2 = r2.current.weather[0].icon;
@@ -231,6 +233,15 @@ $(document).ready(function() {
         }
 
     });
+
+
+    //// Set UV Index background color
+    function setUVcolor (uvi) {
+
+        if (uvi >2){
+
+        }
+    }
 
     // Add a delay to allow the city list to be populated
     var delayInMilliseconds = 100;
