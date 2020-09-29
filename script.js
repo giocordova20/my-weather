@@ -136,7 +136,7 @@ $(document).ready(function() {
     function renderCities(){
 
         console.log("");
-        console.log("  IN RENDER CITIES  ");
+        console.log("  ===== IN RENDER CITIES ===== ");
 
         $("#city-list").empty(); // Clear the city list so that duplicates do not appear when adding new cities
         var citiesArrLoc = JSON.parse(localStorage.getItem("city-searches"));
@@ -166,7 +166,7 @@ $(document).ready(function() {
 
 
 
-    //// This function handles events when the Search button is clicked ////
+    //// Search button is clicked ////
     $("#city-search").on("click", function(event) {
     event.preventDefault();
     var zipCode = $("#zip").val().trim();
@@ -261,36 +261,65 @@ $(document).ready(function() {
     });
 
 
-    //// Save the city search to localStorage
+    //// Save the city search to localStorage ////
     function saveSearch(type, value, name){
 
         console.log("");
-        console.log("==== IN SAVESEARCH TO LOCAL ====");
+        console.log("");
+        console.log("==== IN SAVE SEARCH TO LOCAL ====");
+
+        console.log('     type:  '+type, '  value:  '+value,'  name:  '+name);
+
         // Data from local storage
         var citiesArrLoc = JSON.parse(localStorage.getItem("city-searches")) || [];
-        console.log("citiesArrLoc1", citiesArrLoc);
+
+        console.log("    citiesArrLoc", citiesArrLoc);
+
         // Current City Search to add
         var cSearchObj = {
             searchType: type,
             searchValue: value,
             name: name
         };
+
+        
+        if (citiesArrLoc!=0){
+            console.log("   *** citiesArrLoc is NOT empty ***   ");
+            
+            console.log("    citiesArrLoc.searchValue[0]: ",citiesArrLoc[0]);
+            for (var i = 0; i < citiesArrLoc.length; i++) {
+                
+                console.log( citiesArrLoc[i]) ;
+                if (citiesArrLoc[i].searchValue==value){
+                    console.log("   This search value already exists   ")
+                    return // Don't save the search if it already exists
+                }
+                
+            }
+            
+            
+        }
+
         // Add new city to the beginning of the array so that appears first in the list
         // when it rendered
         citiesArrLoc.unshift(cSearchObj);
         console.log("citiesArrLoc2", citiesArrLoc);
         localStorage.setItem("city-searches",JSON.stringify(citiesArrLoc));
+        console.log("==== END SAVE SEARCH TO LOCAL ====");
+        console.log("");
 
     };
 
-     renderCities();
-     displayCityWeather("New York, New York", "citystate")
-     saveSearch("citystate","New York City, NY");
-     var delayInMilliseconds = 100; //1 second
-     setTimeout(function() {
-        console.log("     in setTimeout     ");
-      renderCities();
-    }, delayInMilliseconds);
+    
+    displayCityWeather("New York, New York", "citystate")
 
+    // saveSearch("citystate","York City, NY");
+
+    var delayInMilliseconds = 100; //1 second
+    setTimeout(function() {
+        console.log("     in setTimeout     ");
+        renderCities();
+    }, delayInMilliseconds);
+    
     
 });
