@@ -1,3 +1,7 @@
+#title {
+    color:#2B3EF2
+}
+
 .list-group-item+ .list-group-item {
     border-top: 1px solid #f7f9fa;
 }
@@ -6,8 +10,16 @@
     padding-right: 15px;
 }
 
+#forecast-title {
+color: #9fc5dc;
+}
+
 .row-current {
     margin-right: 90px;
+}
+
+#initial-load{
+    margin-left: 75px;
 }
 
 #currentWeather {
@@ -16,9 +28,11 @@ background-color: #9caab7;
 
 .row-city {
     padding-left: 5px;
-    text-align: center;
 }
 
+#cCity {
+    color: #1b4de4
+}
 #cdate {
 padding-left: 10px;
 }
@@ -38,4 +52,16 @@ padding-left: 10px;
 .f-card {
     width: auto;
     margin: auto;
+}
+
+@media (max-width: 576px){
+    .row-current {
+        margin-right:1px;
+    }
+
+
+    #initial-load{
+        margin-left: 5px;
+    }
+    
 }
