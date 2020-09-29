@@ -16,14 +16,18 @@ background-color: #9caab7;
 
 .row-city {
     padding-left: 5px;
+    text-align: center;
 }
 
 #cdate {
 padding-left: 10px;
 }
 
-#cIcon {
+#cIcon, .forecast-icon{
   padding-left: 10px;  
+  /* width: 60px; */
+  height: 55px;
+
 }
 
 #forecastTitle {

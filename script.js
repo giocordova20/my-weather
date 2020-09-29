@@ -19,7 +19,6 @@ $(document).ready(function() {
         }
         console.log("");
 
-        // var city = $(this).attr("data-city");
 
         $("#date").text(currentDate);
         var currentIcon2 = "";
@@ -28,9 +27,11 @@ $(document).ready(function() {
         
         console.log("queryURL 1: ", queryURL);
 
-        $("#cIcon").text(currentIcon2);
+        $("#initial-load").text("");
 
-       // Creating an AJAX call for the specific city button being clicked
+        //<img id="cIcon" src="http://openweathermap.org/img/wn/04d@2x.png"></img>
+
+        // Creating an AJAX call for the specific city button being clicked
         $.ajax({
           url: queryURL,
           method: "GET"
@@ -70,20 +71,22 @@ $(document).ready(function() {
                 console.log("    response 2:   ",r2);
                 var currentTemp2 = r2.current.temp+"˚F";
                 currentIcon2 = r2.current.weather[0].icon;
+                var currentIcon2Desc = r2.current.weather[0].description;
                 var tempFeel2 = r2.current.feels_like+"˚F";
                 var uvIndex2  = r2.current.uvi;
                 var windSpeed2 = r2.current.wind_speed+"MPH";
+                var cIconSource = `http://openweathermap.org/img/wn/${(currentIcon2)}@2x.png`
                 // console.log("");
                 // console.log("========= Current Temp =========");
                 // console.log("  response2 TEMP Fahrenheit: ", currentTemp2+"˚F");
-                // console.log("  response2 icon: ", currentIcon2);
+                console.log("  response2 icon: ", currentIcon2);
                 // console.log("  response2.main.FEELS_LIKE:  ",tempFeel2+"˚F");
                 // console.log("  response2.current.UVI:  ",uvIndex2);
                 // console.log("  response2.current.WIND_SPEED:  ",windSpeed2+"MPH");
                 // console.log("");
                 // console.log("========= Forecasts  =========");
                 $("#cTemp").text("Temperature: "+currentTemp2);
-                $("#cIcon").text(currentIcon2);
+                $("#cIcon").attr({"src": cIconSource, "alt": currentIcon2Desc});
                 $("#cFeels").text("Feels Like: "+tempFeel2);
                 $("#cUV").text("UV Index: "+uvIndex2);
                 $("#cWind").text("Wind Speed: "+windSpeed2);
@@ -98,6 +101,8 @@ $(document).ready(function() {
                     var fNight = r2.daily[i].temp.night+"˚F";
                     var fHum = r2.daily[i].humidity+"%";
                     var fIcon = r2.daily[i].weather[0].icon;
+                    var fIconDesc = r2.daily[i].weather[0].description;
+                    var fIconSource = `http://openweathermap.org/img/wn/${(fIcon)}@2x.png`;
                     // var a = today.add(1,'day');
                     // var b = a.format("l");
                     
@@ -120,7 +125,7 @@ $(document).ready(function() {
 
 
                     $("#fDate"+i).text(b.format("l"));
-                    $("#fIcon"+i).text(fIcon);
+                    $("#fIcon"+i).attr({"src":fIconSource, "alt":fIconDesc});
                     $("#fD"+i).text("Day: "+fDay);
                     $("#fN"+i).text("Night: "+fNight);
                     $("#fHum"+i).text("Humidity: "+fHum);
@@ -306,24 +311,6 @@ $(document).ready(function() {
         console.log("==== END SAVE SEARCH TO LOCAL ====");
         console.log("");
     };
-
-    
-    // function initialPageLoad(){
-    //     var citiesArrLoc = JSON.parse(localStorage.getItem("city-searches")) || [];
-    //     if (citiesArrLoc==0){
-    //         console.log(" ");
-    //         console.log(" IN THE INITIAL PAGE LOAD ");
-    //         displayCityWeather("New York, New York", "citystate")
-    //         console.log(" ");
-    //     }else if(){
-
-    //     };
-        
-        
-        
-    // };
-    
-    // initialPageLoad();
 
 
     var delayInMilliseconds = 100;
