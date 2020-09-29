@@ -5,9 +5,6 @@ $(document).ready(function() {
     // console.log("currentDate", currentDate);
     // console.log("");
     $("#cdate").text(currentDate);//
-    
-    var citiesArr; // Array to hold cities that have been searched
-
 
     function displayCityWeather(search,type) {
         console.log("");
@@ -22,7 +19,7 @@ $(document).ready(function() {
         }
         console.log("");
 
-        var city = $(this).attr("data-city");
+        // var city = $(this).attr("data-city");
 
         $("#date").text(currentDate);
         var currentIcon2 = "";
@@ -59,26 +56,10 @@ $(document).ready(function() {
             $("#cLow").text("Low: "+cLow);
             $("#cHum").text("Humidity: "+cHum);
 
-            // Push the city name to the array if ZIP code is used for search
-            if (type=="zip"){
 
-                var searchZipObj = {
-                    searchType: "zip",
-                    searchValue: search,
-                    cityName: city 
-                };
-                citiesArr.push(searchZipObj);
-            }
-
-            // // Save the citiesArr to local storage.
-            // localStorage.setItem("city-searches",JSON.stringify(citiesArr));
-
-
-
-            console.table("cities array",citiesArr);
             console.log("");
             var queryURL2 = "https:api.openweathermap.org/data/2.5/onecall?appid=ba936e978e68dd024ee2931bbb340b72&lat="+lat+"&lon="+lon+"&exclude=hourly,minutely&units=imperial";
-            // console.log("queryURL2: ",queryURL2);
+            console.log("queryURL2: ",queryURL2);
 
             $.ajax({
                 url: queryURL2,
@@ -110,23 +91,34 @@ $(document).ready(function() {
                 // console.log(r2.daily);
 
                 // Get the 5 Day forecast and display it
+                var a = moment();
                 for (var i = 0; i<5; i++){
                     var fDay = r2.daily[i].temp.day+"˚F";
                     var fNight = r2.daily[i].temp.night+"˚F";
                     var fHum = r2.daily[i].humidity+"%";
                     var fIcon = r2.daily[i].weather[0].icon;
-                    var a = today.add(1,'day');
-                    var b = a.format("l");
+                    // var a = today.add(1,'day');
+                    // var b = a.format("l");
                     
-                    // console.log("Day: ",i);
-                    // console.log("TEMP DAY: ",fDay);
-                    // console.log("TEMP NIGHT: ",fNight);
-                    // console.log("Humidity: ",fHum);
-                    // console.log("icon: ",fIcon);
+                    var b = a.add(1,'day');
+
+                    console.log("");
+                    // console.log("today:  "+today,"   a:  "+ a, "   b:  "+b);
+                    // console.log("todya.format('l')" +today.format("l"), "a:  "+ a.format("l"), "  b:  "+b.format("l"));
+
+
+                    // console.log("today: "+ today.format("l"), "  a: "+ a, "  b: "+b);
+
+                    // console.log("today: "+ today.add(1,day).format("l"));
+                    console.log("Day: ",i);
+                    console.log("TEMP DAY: ",fDay);
+                    console.log("TEMP NIGHT: ",fNight);
+                    console.log("Humidity: ",fHum);
+                    console.log("icon: ",fIcon);
                     // console.log("a.format('l')   ",a.format("l"));
 
 
-                    $("#fDate"+i).text(b);
+                    $("#fDate"+i).text(b.format("l"));
                     $("#fIcon"+i).text(fIcon);
                     $("#fD"+i).text("Day: "+fDay);
                     $("#fN"+i).text("Night: "+fNight);
@@ -135,6 +127,8 @@ $(document).ready(function() {
             });
 
         });
+        console.log("  ===== END OF DISPLAY WEATHER =====  ");
+        console.log("");
 
     };
 
@@ -144,8 +138,13 @@ $(document).ready(function() {
         console.log("");
         console.log("  IN RENDER CITIES  ");
 
+        $("#city-list").empty(); // Clear the city list so that duplicates do not appear when adding new cities
         var citiesArrLoc = JSON.parse(localStorage.getItem("city-searches"));
         console.log("citiesArrLoc:   ", citiesArrLoc);
+
+        if (!citiesArrLoc){
+            return
+        }
 
         for (var i=0; i< citiesArrLoc.length; i++){
             console.log("citiesArr i: ",citiesArrLoc[i]);
@@ -153,18 +152,19 @@ $(document).ready(function() {
             
             list.attr("data-city",citiesArrLoc[i].searchValue);
             if (citiesArrLoc[i].searchType=="zip"){
-                list.text(citiesArrLoc[i].cityName);
+                list.text(citiesArrLoc[i].name);
             }else if (citiesArrLoc[i].searchType=="citystate"){
                 list.text(citiesArrLoc[i].searchValue)
             }
-                
+        
 
-            // $("#city-list").append(list);
-            $("#city-list").prepend(list);
+            $("#city-list").append(list);
         };
 
         console.log("");
     };
+
+
 
     //// This function handles events when the Search button is clicked ////
     $("#city-search").on("click", function(event) {
@@ -174,6 +174,7 @@ $(document).ready(function() {
     var state = $("#state-select").val();
     var cityState = "";
     console.log("");
+    console.log("  ==== IN SEARCH CLICK ====");
     console.log(city);
     console.log(state);
     console.log("");
@@ -187,85 +188,109 @@ $(document).ready(function() {
 
         } else if (zipCode !=""){
             console.log("zipCode:   ",zipCode);
-            // var searchItem = zipCode;
-
             document.getElementById('zip').value = ''; // Clear out the ZIP Code input after search is clicked
 
-            var searchZipObj = {
-                searchType: "zip",
-                searchValue: zipCode,
-                cityName: "" 
-            };
+            // Save the zip code search to localStorage, but first get the city name with an ajax call
+            var queryURL = `https://api.openweathermap.org/data/2.5/weather?zip=${(zipCode)},us&units=imperial&appid=ba936e978e68dd024ee2931bbb340b72`;
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function(response) {
+                
+                var name = response.name;
+                console.log("name in zipcode save city in search click:         ", name);
+                
+                console.log("name", name);
+                
+            // Save the zip code search to localStorage. 
+            // (type: "zip", value: "23112", name: {name returned for zipcode search only}) 
+            saveSearch("zip", zipCode, name); 
+            });
+            
 
-            localStorage.setItem("city-searches", JSON.stringify(searchZipObj));
-
+            // Search city weather using the zipcode
             displayCityWeather(zipCode,"zip");
 
         }else if (state!="" && state !="Select a State"){
+
             console.log("    city: " + city, " || state: ", state);
+            
             cityState = `${(city)}, ${(state)}`;
 
             console.log("cityState:    ",cityState);
-            // // citiesArr.push(cityState);
 
-            // // Push the city, state object to citiesArr
-            // var searchCityStateObj = {
-            //     searchType: "citystate",
-            //     searchValue: cityState
-            // };
-            // // citiesArr.push(searchCityStateObj);
-            // console.log(searchCityStateObj);
-            // localStorage.setItem("city-searches", JSON.stringify(searchCityStateObj));
+            // Save the city, state search to localStorage. 
+            // (type: "citystate", value: "Richmond, VA", name: not needed for city,state search) 
+            saveSearch("citystate",cityState);
 
-            saveSearch("citystate",cityState,"");
+            // Clear out city and State
+            document.getElementById('city').value = '';
+            document.getElementById('state-select').value = 'Select a State';
+
+            // Search for city weather using city, state
             displayCityWeather(cityState,"citystate");
         }
 
+
+        var delayInMilliseconds = 100; //1 second
+        setTimeout(function() {
+            console.log("     in setTimeout     ");
+          renderCities();
+        }, delayInMilliseconds);
+    
+
+
     
     });
     
-    //// Add a click event listener for the city list. It targest the class "city-item" ////
+    //// Add click event listener for the city list to target the class "city-item" ////
     $(document).on("click", ".city-item", function(){
         var search = $(this).attr("data-city");
         console.log(" ");
-        console.log("  IN CLICK LIST  ");
-        console.log(citiesArr);
+        console.log("  ===IN CLICK LIST===  ");
+        console.log(search);
         console.log("search:  ", search);
+        console.log("search typeof:  ", typeof parseInt(search));
 
-     displayCityWeather(search, "citystate");
+        if (isNaN( parseInt(search))==false){
+            displayCityWeather(search, "zip");
+        } else{
+            displayCityWeather(search, "citystate");
+        }
 
     });
 
 
+    //// Save the city search to localStorage
     function saveSearch(type, value, name){
 
-        // var searchCityStateObj = {
-        //     searchType: "citystate",
-        //     searchValue: cityState
-        // };
-
-        // var searchZipObj = {
-        //     searchType: "zip",
-        //     searchValue: search,
-        //     cityName: city 
-        // };
-
+        console.log("");
+        console.log("==== IN SAVESEARCH TO LOCAL ====");
         // Data from local storage
         var citiesArrLoc = JSON.parse(localStorage.getItem("city-searches")) || [];
         console.log("citiesArrLoc1", citiesArrLoc);
-        // Current Search
+        // Current City Search to add
         var cSearchObj = {
             searchType: type,
             searchValue: value,
             name: name
         };
-
+        // Add new city to the beginning of the array so that appears first in the list
+        // when it rendered
         citiesArrLoc.unshift(cSearchObj);
         console.log("citiesArrLoc2", citiesArrLoc);
         localStorage.setItem("city-searches",JSON.stringify(citiesArrLoc));
 
     };
 
-     // renderCities();
+     renderCities();
+     displayCityWeather("New York, New York", "citystate")
+     saveSearch("citystate","New York City, NY");
+     var delayInMilliseconds = 100; //1 second
+     setTimeout(function() {
+        console.log("     in setTimeout     ");
+      renderCities();
+    }, delayInMilliseconds);
+
     
 });
