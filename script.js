@@ -184,6 +184,9 @@ $(document).ready(function() {
     event.preventDefault();
     var zipCode = $("#zip").val().trim();
     var city = $("#city").val().trim();
+    var firstLetter = city.charAt(0);
+    var restCity = city.slice(1);
+        city = firstLetter.toUpperCase()+restCity;
     var state = $("#state-select").val();
     var cityState = "";
     // console.log("");
