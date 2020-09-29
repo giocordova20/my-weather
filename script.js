@@ -6,32 +6,33 @@ $(document).ready(function() {
     // console.log("");
     $("#cdate").text(currentDate);
 
+    //// Use a search term (zip code or city+state) to query the OpenWeather api \\\\
     function displayCityWeather(search,type) {
-        console.log("");
-        console.log("  IN displayCityWeather search:",search);
+        // console.log("");
+        // console.log("  IN displayCityWeather search:",search);
 
+        // Switch between a zip code search and a city+state search
         if (type=="zip"){
-            console.log(" the search is zipcode");
+            // console.log(" the search is zipcode");
             var queryURL = `https://api.openweathermap.org/data/2.5/weather?zip=${(search)},us&units=imperial&appid=ba936e978e68dd024ee2931bbb340b72`;
         }else if (type=="citystate"){
-            console.log("the search is city,state")
+            // console.log("the search is city,state")
             var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${(search)},us&units=imperial&appid=ba936e978e68dd024ee2931bbb340b72`;
         }
-        console.log("");
+        // console.log("");
 
 
-        $("#date").text(currentDate);
+        $("#date").text(currentDate); // Display the current date on the page
         var currentIcon2 = "";
         var lat = "";
         var lon = "";
         
-        console.log("queryURL 1: ", queryURL);
+        // console.log("queryURL 1: ", queryURL);
 
-        $("#initial-load").text("");
+        $("#initial-load").text(""); // Clear out the text on the initial page load
 
-        //<img id="cIcon" src="http://openweathermap.org/img/wn/04d@2x.png"></img>
 
-        // Creating an AJAX call for the specific city button being clicked
+        // Use nested AJAX calls to get the weater information from the OpenWeather API
         $.ajax({
           url: queryURL,
           method: "GET"
@@ -42,9 +43,9 @@ $(document).ready(function() {
             var cLow = response.main.temp_min+"˚F";
             var cHum = response.main.humidity+"%";
             var city = response.name;
-            console.log("")
+            // console.log("")
             // console.log("queryURL1", queryURL);
-            console.log("   response 1:    ", response);
+            // console.log("   response 1:    ", response);
             // console.log("   lat and lon:  "+ lat +" : "+lon);
             // console.log("   temp Farhenheit:  ", response.main.temp);
             // console.log("   TEMP max:  ", response.main.temp_max+"˚F");
@@ -52,23 +53,26 @@ $(document).ready(function() {
             // console.log("   HUMIDITY:  ", response.main.humidity+"%");
             // console.log("   windspeed:  ", response.wind.speed+"mph");
             // console.log("");
+
+            // Set the city name, temp high, temp low, and humidity
             $("#cCity").text(city);
             $("#cHigh").text("High: "+cHigh);
             $("#cLow").text("Low: "+cLow);
             $("#cHum").text("Humidity: "+cHum);
 
 
-            console.log("");
+            // console.log("");
             var queryURL2 = "https:api.openweathermap.org/data/2.5/onecall?appid=ba936e978e68dd024ee2931bbb340b72&lat="+lat+"&lon="+lon+"&exclude=hourly,minutely&units=imperial";
-            console.log("queryURL2: ",queryURL2);
+            // console.log("queryURL2: ",queryURL2);
 
+            // Use the lat and lon from the first AJAX to get the daily forecast    
             $.ajax({
                 url: queryURL2,
                 method: "GET"
             }).then(function(response) {
 
                 var r2 = response;
-                console.log("    response 2:   ",r2);
+                // console.log("    response 2:   ",r2);
                 var currentTemp2 = r2.current.temp+"˚F";
                 currentIcon2 = r2.current.weather[0].icon;
                 var currentIcon2Desc = r2.current.weather[0].description;
@@ -79,12 +83,14 @@ $(document).ready(function() {
                 // console.log("");
                 // console.log("========= Current Temp =========");
                 // console.log("  response2 TEMP Fahrenheit: ", currentTemp2+"˚F");
-                console.log("  response2 icon: ", currentIcon2);
+                // console.log("  response2 icon: ", currentIcon2);
                 // console.log("  response2.main.FEELS_LIKE:  ",tempFeel2+"˚F");
                 // console.log("  response2.current.UVI:  ",uvIndex2);
                 // console.log("  response2.current.WIND_SPEED:  ",windSpeed2+"MPH");
                 // console.log("");
                 // console.log("========= Forecasts  =========");
+
+                // Set the current temp, weather icon, feels like temp, uv index, and wind speed
                 $("#cTemp").text("Temperature: "+currentTemp2);
                 $("#cIcon").attr({"src": cIconSource, "alt": currentIcon2Desc});
                 $("#cFeels").text("Feels Like: "+tempFeel2);
@@ -102,13 +108,10 @@ $(document).ready(function() {
                     var fHum = r2.daily[i].humidity+"%";
                     var fIcon = r2.daily[i].weather[0].icon;
                     var fIconDesc = r2.daily[i].weather[0].description;
-                    var fIconSource = `http://openweathermap.org/img/wn/${(fIcon)}@2x.png`;
-                    // var a = today.add(1,'day');
-                    // var b = a.format("l");
-                    
+                    var fIconSource = `http://openweathermap.org/img/wn/${(fIcon)}@2x.png`;                    
                     var b = a.add(1,'day');
 
-                    console.log("");
+                    // console.log("");
                     // console.log("today:  "+today,"   a:  "+ a, "   b:  "+b);
                     // console.log("todya.format('l')" +today.format("l"), "a:  "+ a.format("l"), "  b:  "+b.format("l"));
 
@@ -116,14 +119,14 @@ $(document).ready(function() {
                     // console.log("today: "+ today.format("l"), "  a: "+ a, "  b: "+b);
 
                     // console.log("today: "+ today.add(1,day).format("l"));
-                    console.log("Day: ",i);
-                    console.log("TEMP DAY: ",fDay);
-                    console.log("TEMP NIGHT: ",fNight);
-                    console.log("Humidity: ",fHum);
-                    console.log("icon: ",fIcon);
+                    // console.log("Day: ",i);
+                    // console.log("TEMP DAY: ",fDay);
+                    // console.log("TEMP NIGHT: ",fNight);
+                    // console.log("Humidity: ",fHum);
+                    // console.log("icon: ",fIcon);
                     // console.log("a.format('l')   ",a.format("l"));
 
-
+                    // Display daily forecast information
                     $("#fDate"+i).text(b.format("l"));
                     $("#fIcon"+i).attr({"src":fIconSource, "alt":fIconDesc});
                     $("#fD"+i).text("Day: "+fDay);
@@ -133,29 +136,34 @@ $(document).ready(function() {
             });
 
         });
-        console.log("  ===== END OF DISPLAY WEATHER =====  ");
-        console.log("");
+        // console.log("  ===== END OF DISPLAY WEATHER =====  ");
+        // console.log("");
 
     };
 
-    //// Add the searched cities to the list ////
+    //// Display the searched cities in the city list \\\\
     function renderCities(){
 
-        console.log("");
-        console.log("  ===== IN RENDER CITIES ===== ");
+        // console.log("");
+        // console.log("  ===== IN RENDER CITIES ===== ");
 
         $("#city-list").empty(); // Clear the city list so that duplicates do not appear when adding new cities
+        
+        // Get city list from localStorage
         var citiesArrLoc = JSON.parse(localStorage.getItem("city-searches"));
-        console.log("citiesArrLoc:   ", citiesArrLoc);
+        // console.log("citiesArrLoc:   ", citiesArrLoc);
 
+        // Exit out if there's nothingin localStorage
         if (!citiesArrLoc){
             return
         }
 
+        // Iterate throught the city list, set the class and add the city name
         for (var i=0; i< citiesArrLoc.length; i++){
-            console.log("citiesArr i: ",citiesArrLoc[i]);
+            // console.log("citiesArr i: ",citiesArrLoc[i]);
             var list = $("<a class='city-item list-group-item list-group-item-action list-group-item-dark'>");
             
+            // Set only city name if it was a zipcode search, set city,state if city+state is use for search
             list.attr("data-city",citiesArrLoc[i].searchValue);
             if (citiesArrLoc[i].searchType=="zip"){
                 list.text(citiesArrLoc[i].name);
@@ -163,37 +171,37 @@ $(document).ready(function() {
                 list.text(citiesArrLoc[i].searchValue)
             }
         
-
-            $("#city-list").append(list);
+            $("#city-list").append(list); // Add city to the list
         };
 
-        console.log("");
+        // console.log("");
     };
 
 
 
-    //// Search button is clicked ////
+    //// Search button is clicked \\\\
     $("#city-search").on("click", function(event) {
     event.preventDefault();
     var zipCode = $("#zip").val().trim();
     var city = $("#city").val().trim();
     var state = $("#state-select").val();
     var cityState = "";
-    console.log("");
-    console.log("  ==== IN SEARCH CLICK ====");
-    console.log(city);
-    console.log(state);
-    console.log("");
+    // console.log("");
+    // console.log("  ==== IN SEARCH CLICK ====");
+    // console.log(city);
+    // console.log(state);
+    // console.log("");
 
+        // Make sure something is in the input fields
         if (zipCode==="" && city===""){
-            console.log("  **** NOTHING IN THE ZIPCODE CITY SEARCH FIELDS ****")
+            // console.log("  **** NOTHING IN THE ZIPCODE CITY SEARCH FIELDS ****")
             return
         }else if (city!="" && state=="Select a State"){
-            console.log(" city is populated state are empty ")
+            // console.log(" city is populated state are empty ")
             return
 
         } else if (zipCode !=""){
-            console.log("zipCode:   ",zipCode);
+            // console.log("zipCode:   ",zipCode);
             document.getElementById('zip').value = ''; // Clear out the ZIP Code input after search is clicked
 
             // Save the zip code search to localStorage, but first get the city name with an ajax call
@@ -204,9 +212,9 @@ $(document).ready(function() {
             }).then(function(response) {
                 
                 var name = response.name;
-                console.log("name in zipcode save city in search click:         ", name);
+                // console.log("name in zipcode save city in search click:         ", name);
                 
-                console.log("name", name);
+                // console.log("name", name);
                 
             // Save the zip code search to localStorage. 
             // (type: "zip", value: "23112", name: {name returned for zipcode search only}) 
@@ -219,11 +227,11 @@ $(document).ready(function() {
 
         }else if (state!="" && state !="Select a State"){
 
-            console.log("    city: " + city, " || state: ", state);
+            // console.log("    city: " + city, " || state: ", state);
             
             cityState = `${(city)}, ${(state)}`;
 
-            console.log("cityState:    ",cityState);
+            // console.log("cityState:    ",cityState);
 
             // Save the city, state search to localStorage. 
             // (type: "citystate", value: "Richmond, VA", name: not needed for city,state search) 
@@ -237,10 +245,10 @@ $(document).ready(function() {
             displayCityWeather(cityState,"citystate");
         }
 
-
+        // Add a slight wait to allow the city list to be populated
         var delayInMilliseconds = 100; //1 second
         setTimeout(function() {
-            console.log("     in setTimeout     ");
+            // console.log("     in setTimeout     ");
           renderCities();
         }, delayInMilliseconds);
     
@@ -248,55 +256,55 @@ $(document).ready(function() {
     });
     
 
-    //// Add click event listener for the city list to target the class "city-item" ////
+    //// Click event listener for the city list to target the class "city-item" \\\\
     $(document).on("click", ".city-item", function(){
         var search = $(this).attr("data-city");
-        console.log(" ");
-        console.log("  ===IN CLICK LIST===  ");
-        console.log(search);
-        console.log("search:  ", search);
-        console.log("search typeof:  ", typeof parseInt(search));
+        // console.log(" ");
+        // console.log("  ===IN CLICK LIST===  ");
+        // console.log(search);
+        // console.log("search:  ", search);
+        // console.log("search typeof:  ", typeof parseInt(search));
 
+        // Determine what query to use depending on zip code or city+state search
         if (isNaN( parseInt(search))==false){
             displayCityWeather(search, "zip");
         } else{
             displayCityWeather(search, "citystate");
         }
-
     });
 
 
-    //// Save the city search to localStorage ////
+    //// Save the city search to localStorage \\\\
     function saveSearch(type, value, name){
 
-        console.log("");
-        console.log("");
-        console.log("==== IN SAVE SEARCH TO LOCAL ====");
+        // console.log("");
+        // console.log("");
+        // console.log("==== IN SAVE SEARCH TO LOCAL ====");
 
-        console.log('     type:  '+type, '  value:  '+value,'  name:  '+name);
+        // console.log('     type:  '+type, '  value:  '+value,'  name:  '+name);
 
         // Data from local storage
         var citiesArrLoc = JSON.parse(localStorage.getItem("city-searches")) || [];
 
-        console.log("    citiesArrLoc", citiesArrLoc);
+        // console.log("    citiesArrLoc", citiesArrLoc);
 
-        // Current City Search to add
+        // Current city search to add
         var cSearchObj = {
             searchType: type,
             searchValue: value,
             name: name
         };
 
-        
+        // Do a check of cities in localStorage so that duplicates are not added
         if (citiesArrLoc!=0){
-            console.log("   *** citiesArrLoc is NOT empty ***   ");
+            // console.log("   *** citiesArrLoc is NOT empty ***   ");
             
-            console.log("    citiesArrLoc.searchValue[0]: ",citiesArrLoc[0]);
+            // console.log("    citiesArrLoc.searchValue[0]: ",citiesArrLoc[0]);
             for (var i = 0; i < citiesArrLoc.length; i++) {
                 
-                console.log( citiesArrLoc[i]) ;
+                // console.log( citiesArrLoc[i]) ;
                 if (citiesArrLoc[i].searchValue==value){
-                    console.log("   This search value already exists   ")
+                    // console.log("   This search value already exists   ")
                     return // Don't save the search if it already exists
                 };
                 
@@ -306,16 +314,29 @@ $(document).ready(function() {
         // Add new city to the beginning of the array so that appears first in the list
         // when it rendered
         citiesArrLoc.unshift(cSearchObj);
-        console.log("citiesArrLoc2", citiesArrLoc);
+        // console.log("citiesArrLoc2", citiesArrLoc);
         localStorage.setItem("city-searches",JSON.stringify(citiesArrLoc));
-        console.log("==== END SAVE SEARCH TO LOCAL ====");
-        console.log("");
+        // console.log("==== END SAVE SEARCH TO LOCAL ====");
+        // console.log("");
     };
 
+    //// Event listener to clear out searches \\\\
+    $("#clear-searches").on("click", function(){
 
+        // Data from local storage
+        var citiesArrLoc = JSON.parse(localStorage.getItem("city-searches")) || [];
+
+        if (citiesArrLoc!=0){
+            localStorage.removeItem("city-searches");
+            location.reload();
+        }
+
+    });
+
+    // Add a delay to allow the city list to be populated
     var delayInMilliseconds = 100;
     setTimeout(function() {
-        console.log("     in setTimeout     ");
+        // console.log("     in setTimeout     ");
         renderCities();
     }, delayInMilliseconds);
     
