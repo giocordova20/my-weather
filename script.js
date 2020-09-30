@@ -58,6 +58,7 @@ $(document).ready(function() {
                 $("#cIcon").attr({"src": cIconSource, "alt": currentIcon2Desc});
                 $("#cFeels").text("Feels Like: "+tempFeel2);
                 $("#cUV").text("UV Index: "+uvIndex2);
+                setUVcolor(uvIndex2);
                 $("#cWind").text("Wind Speed: "+windSpeed2);
                 $("#forecast-title").text("Your 5 Day Forecast");
 
@@ -233,13 +234,23 @@ $(document).ready(function() {
     });
 
 
-    //// Set UV Index background color
+    //// Set UV Index background color \\\\
     function setUVcolor (uvi) {
 
-        if (uvi >2){
-
+        var uvi = parseInt(uvi);
+        if (uvi <= 2){
+            $("#cUV").css({'color':'green'});
+            
+        }else if (uvi >=3 && uvi<=5){
+            $("#cUV").css({'color':'yellow'});
+            
+        }else if (uvi >=6 && uvi <= 7){
+            $("#cUV").css({'color':'orange'});
+            
+        }else if (uvi >= 8 && uvi <= 10){
+            $("#cUV").css({'color':'red'});
         }
-    }
+    };
 
     // Add a delay to allow the city list to be populated
     var delayInMilliseconds = 100;
