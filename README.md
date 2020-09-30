@@ -19,5 +19,6 @@ Desktop View
 
 
 Responsive View
+
 ![my weather responsive](/ResponsiveView.png)
 
