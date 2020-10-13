@@ -49,16 +49,28 @@ padding-left: 10px;
     background-color: #4e5d6c;
 }
 
-.f-card {
-    width: auto;
-    margin: auto;
+#forecast {
+    justify-content: space-around !important;
+
 }
 
+.f-card {
+    width: auto;
+    margin: 0px;
+}
+
+.card-body {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 @media (max-width: 576px){
     .row-current {
         margin-right:1px;
     }
 
+    .f-card {
+        padding: 20px;
+    }
 
     #initial-load{
         margin-left: 5px;
